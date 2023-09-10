@@ -40,9 +40,16 @@ scouts_data = {
     "vitoria_tecnico": {"abreviacao": "V", "valor": 1.0},
 }
 
-# Métricas de interesse 
+# Métricas de interesse
 fact_table_selected_metrics = {
     "preco": "preco_num",
     "media": "media_num",
     "pontuacao_rodada": "pontos_num",
 }
+
+# Local de armazenamento dos dados brutos
+# Raiz do projeto como padrão
+ROOT_STAGING_AREA_PATH = None  
+
+# Ano base de referência
+BASE_YEAR = "2023"
