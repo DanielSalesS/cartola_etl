@@ -40,6 +40,7 @@ scouts_data = {
     "vitoria_tecnico": {"abreviacao": "V", "valor": 1.0},
 }
 
+## Fato Pontuação
 # Métricas de interesse
 fact_table_selected_metrics = {
     "preco": "preco_num",
@@ -47,9 +48,16 @@ fact_table_selected_metrics = {
     "pontuacao_rodada": "pontos_num",
 }
 
+## Dimensão Clubes
+# Valores especiais para os dados dos clubes
+clubes_special_values = [
+    {"id": 1, "nome": "Outros", "abreviacao": "OUT"},
+    {"id": -1, "nome": "Sem Clube", "abreviacao": "SCB"},
+]
+
 # Local de armazenamento dos dados brutos
 # Raiz do projeto como padrão
-ROOT_STAGING_AREA_PATH = None  
+ROOT_STAGING_AREA_PATH = None
 
 # Ano base de referência
 BASE_YEAR = "2023"
