@@ -55,6 +55,10 @@ clubes_special_values = [
     {"id": -1, "nome": "Sem Clube", "abreviacao": "SCB"},
 ]
 
+## Dimensão Rodadas
+# Valores iniciais para os dados das rodadas
+rodadas_initial_values = {"cartoletas": 100, "pontos": 0}
+
 # Local de armazenamento dos dados brutos
 # Raiz do projeto como padrão
 ROOT_STAGING_AREA_PATH = None
