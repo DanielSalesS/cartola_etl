@@ -50,9 +50,12 @@ fact_table_selected_metrics = {
 
 ## Dimensão Clubes
 # Valores especiais para os dados dos clubes
+NO_CLUBE_ID = -1
+OTHER_CLUBE_ID = 1
+
 clubes_special_values = [
-    {"id": 1, "nome": "Outros", "abreviacao": "OUT"},
-    {"id": -1, "nome": "Sem Clube", "abreviacao": "SCB"},
+    {"id": OTHER_CLUBE_ID, "nome": "Outros", "abreviacao": "OUT"},
+    {"id": NO_CLUBE_ID, "nome": "Sem Clube", "abreviacao": "SCB"},
 ]
 
 ## Dimensão Rodadas
