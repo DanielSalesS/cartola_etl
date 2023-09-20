@@ -11,7 +11,7 @@ class TestMembrosClubesLoad(unittest.TestCase):
         data = [(1, "name1", "Goleiro"), (2, "name2", "Lateral")]
 
         expected_query = """
-            INSERT IGNORE INTO dim_membros_equipes (membro_equipe_id, nome_jogador, posicao)
+            INSERT IGNORE INTO dim_membros_equipes (membro_equipe_id, nome_membro, posicao)
             VALUES (%s, %s, %s)
         """
 

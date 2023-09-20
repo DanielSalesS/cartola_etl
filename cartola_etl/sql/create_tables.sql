@@ -12,7 +12,7 @@ CREATE TABLE
 CREATE TABLE
     IF NOT EXISTS dim_membros_equipes (
         membro_equipe_id INT NOT NULL,
-        nome_jogador VARCHAR(45) NULL,
+        nome_membro VARCHAR(45) NULL,
         posicao VARCHAR(45) NULL,
         PRIMARY KEY (membro_equipe_id)
     );
