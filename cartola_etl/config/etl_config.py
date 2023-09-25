@@ -5,7 +5,6 @@
 dynamic_data_endpoints = {
     "mercado_status": "https://api.cartolafc.globo.com/mercado/status",
     "atletas_mercado": "https://api.cartolafc.globo.com/atletas/mercado",
-    "mercado_destaques": "https://api.cartolafc.globo.com/mercado/destaques",
     "pos_rodada_destaques": "https://api.cartolafc.globo.com/pos-rodada/destaques",
     "partidas": "https://api.cartolafc.globo.com/partidas",
 }
