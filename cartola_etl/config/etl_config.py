@@ -61,9 +61,12 @@ clubes_special_values = [
 # Valores iniciais para os dados das rodadas
 rodadas_initial_values = {"cartoletas": 100, "pontos": 0}
 
+# Ano base de referência
+BASE_YEAR = "2023"
+
+# Rodada inicial
+INITIAL_ROUND = 1
+
 # Local de armazenamento dos dados brutos
 # Raiz do projeto como padrão
 ROOT_STAGING_AREA_PATH = None
-
-# Ano base de referência
-BASE_YEAR = "2023"

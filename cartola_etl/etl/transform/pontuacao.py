@@ -2,9 +2,10 @@ import json
 import numpy as np
 import pandas as pd
 from cartola_etl.config.etl_config import (
-    scouts_data,
-    fact_table_selected_metrics,
+    INITIAL_ROUND,
     NO_CLUBE_ID,
+    fact_table_selected_metrics,
+    scouts_data,
 )
 from cartola_etl.etl.extract.database import ScoutsDatabaseExtractor
 from cartola_etl.utils.utils import get_staging_area_path
@@ -97,7 +98,7 @@ class PontuacaoTransform:
         source_data = self.get_json_source_data()
         current_data = self.extract_data_from_json_source(source_data)
 
-        if self.round_number > 1:
+        if self.round_number > INITIAL_ROUND:
             scouts_columns = self.data_utils.get_columns_for_difference_calculation()
 
             db_extractor = ScoutsDatabaseExtractor()

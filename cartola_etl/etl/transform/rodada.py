@@ -1,5 +1,5 @@
 import json
-from cartola_etl.config.etl_config import rodadas_initial_values
+from cartola_etl.config.etl_config import INITIAL_ROUND, rodadas_initial_values
 from cartola_etl.utils.utils import get_staging_area_path
 
 
@@ -44,7 +44,7 @@ class RodadaTransform:
 
         times_escalados = status_source_data["times_escalados"]
 
-        if self.round_number == 1:
+        if self.round_number == INITIAL_ROUND:
             media_cartoletas = rodadas_initial_values["cartoletas"]
             media_pontos_destaque = rodadas_initial_values["pontos"]
         else:
