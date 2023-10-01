@@ -6,6 +6,8 @@ from cartola_etl.config.etl_config import (
     ROOT_STAGING_AREA_PATH,
     BASE_YEAR,
 )
+from cartola_etl.config.database_config import datawarehouse_db_config
+from cartola_etl.database.connection import ConnectionManager
 
 
 def get_project_root():
@@ -27,3 +29,12 @@ def get_current_round():
         return response.json()["rodada_atual"]
 
     return None
+
+
+def get_last_round_in_database():
+    with ConnectionManager(**datawarehouse_db_config).connect() as connection:
+        with connection.cursor() as cursor:
+            cursor.execute("SELECT MAX(rodada_id) FROM fact_pontuacao")
+            last_round = cursor.fetchone()[0]
+
+    return last_round if last_round is not None else 0
