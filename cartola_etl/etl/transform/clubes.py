@@ -20,12 +20,21 @@ class ClubesTransform:
 
         folder_name = f"rodada{round_number_str}"
         filename = "partidas.json"
-        source_path = staging_area_path.joinpath(folder_name, filename)
+        partidas_source_path = staging_area_path.joinpath(folder_name, filename)
+        partidas_source_data = self.load_data(partidas_source_path)
 
-        source_data = self.load_data(source_path)
+        folder_name = "fixed_data"
+        filename = "clubes.json"
+        clubes_source_path = staging_area_path.joinpath(folder_name, filename)
+        clubes_source_data = self.load_data(clubes_source_path)
+
+        valids_ids = tuple(int(_id) for _id in clubes_source_data.keys())
 
         selected_attributes = ["id", "nome", "abreviacao"]
-        for club in source_data["clubes"].values():
+        for club in partidas_source_data["clubes"].values():
+            if club["id"] not in valids_ids:
+                continue
+
             row = tuple([club[attr] for attr in selected_attributes])
             data.append(row)
 
