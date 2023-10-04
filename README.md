@@ -9,6 +9,7 @@ Este é um projeto para extrair, transformar e carregar (ETL) dados da plataform
 - [Modelo Dimensional](#modelo-dimensional)
 - [Requisitos](#requisitos)
 - [Instalação](#instalação)
+- [Uso](#uso)
 - [Licença](#licença)
 
 ## Descrição
@@ -106,6 +107,24 @@ Antes de começar, certifique-se de que você tenha os seguintes requisitos inst
    ```bash
    pip install -e .
    ```
+
+## Uso
+
+1. Defina as variáveis de ambiente no arquivo `.env`.
+
+2. Execute o script de configuração inicial:
+   ```bash
+   python easy_config.py
+   ```
+
+3. Execute a pipeline para transformar e carregar os dados das rodadas anteriores:
+   ```bash
+   python stored_rounds_etl_pipeline.py
+   ```
+
+Após a conclusão desses passos, os dados das rodadas anteriores estarão inseridos no banco de dados. Isso permitirá o acesso aos dados para análise exploratória, criação de dashboards e implementação de modelos de machine learning.
+
+Certifique-se de executar a cada rodada a pipeline `round_etl_pipeline.py` para manter os dados do banco de dados atualizados. Caso perca alguma rodada, é possível sincronizar os dados da `staging_area` com este repositório. Isso garantirá que as informações mais recentes estejam sempre disponíveis para uso.
 
 ## Licença
 
