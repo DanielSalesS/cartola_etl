@@ -30,7 +30,7 @@ class ScoutsDatabaseExtractor:
                 SUM(COALESCE(penalti_perdido, 0)) AS total_penalti_perdido,
                 SUM(COALESCE(penalti_sofrido, 0)) AS total_penalti_sofrido,
                 SUM(COALESCE(vitoria_ponto_extra, 0)) AS total_vitoria_ponto_extra
-            FROM fact_pontuacao
+            FROM fact_pontuacoes
             GROUP BY membro_equipe_id;
         """
 

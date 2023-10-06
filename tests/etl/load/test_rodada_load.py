@@ -11,7 +11,7 @@ class TestRodadaTransform(unittest.TestCase):
         data = (1, "2023-04-15 16:00:00", "2023-04-16 18:30:00", 1514144, 100, 0)
 
         expected_query = """
-            INSERT IGNORE INTO dim_rodadas (rodada_id, inicio, fim, times_escalados, media_cartoletas, media_pontos)
+            INSERT IGNORE INTO dim_rodada (rodada_id, inicio, fim, times_escalados, media_cartoletas, media_pontos)
             VALUES (%s, %s, %s, %s, %s, %s)
         """
 

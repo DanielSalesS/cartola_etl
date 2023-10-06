@@ -4,10 +4,10 @@ import unittest
 from unittest.mock import patch
 import pandas as pd
 from tests.utils_test.utils import get_test_staging_area_path
-from cartola_etl.etl.transform.pontuacao import PontuacaoDataUtils, PontuacaoTransform
+from cartola_etl.etl.transform.pontuacoes import PontuacaoDataUtils, PontuacoesTransform
 
 
-class PontuacaoDataBuilder:
+class PontuacoesDataBuilder:
     posicoes = {
         "1": {"id": 1, "nome": "Goleiro", "abreviacao": "gol"},
         "2": {"id": 2, "nome": "Lateral", "abreviacao": "lat"},
@@ -72,7 +72,7 @@ def create_test_atletas_files(round_number_str, rodada_data, return_path=False):
         return atletas_source_path
 
 
-class TestPontuacaoTransform(unittest.TestCase):
+class TestPontuacoesTransform(unittest.TestCase):
     def setUp(self):
         self.staging_area_path = get_test_staging_area_path()
 
@@ -84,7 +84,7 @@ class TestPontuacaoTransform(unittest.TestCase):
         round_number = 1
         round_number_str = str(round_number).zfill(2)
 
-        data_builder = PontuacaoDataBuilder()
+        data_builder = PontuacoesDataBuilder()
         rodada_data = (
             data_builder
             .add_atleta(1, 10, "name1", 1, {"DS": 0, "FC": 0}, 15.2, 0, 0)
@@ -97,19 +97,19 @@ class TestPontuacaoTransform(unittest.TestCase):
         file_path = create_test_atletas_files(round_number_str, rodada_data, return_path=True)
 
         # Run
-        transformer = PontuacaoTransform(round_number)
+        transformer = PontuacoesTransform(round_number)
         result_data = transformer.load_data(file_path)
 
         # Check
         self.assertEqual(result_data, expected_data)
 
-    @patch("cartola_etl.etl.transform.pontuacao.get_staging_area_path")
+    @patch("cartola_etl.etl.transform.pontuacoes.get_staging_area_path")
     def test_extract_data_from_json_source(self, mock_staging_area_path):
         # Config
         round_number = 1
         round_number_str = str(round_number).zfill(2)
 
-        data_builder = PontuacaoDataBuilder()
+        data_builder = PontuacoesDataBuilder()
         rodada_data = (
             data_builder
             .add_atleta(1, 10, "name1", 1, {"DS": 0, "FC": 0}, 15.2, 0, 0)
@@ -136,7 +136,7 @@ class TestPontuacaoTransform(unittest.TestCase):
         mock_staging_area_path.return_value = test_staging_area_path
 
         # Run
-        transformer = PontuacaoTransform(round_number)
+        transformer = PontuacoesTransform(round_number)
         result_data = transformer.extract_data_from_json_source(source_data)
 
         # Check
@@ -156,7 +156,7 @@ class TestPontuacaoTransform(unittest.TestCase):
         )
 
         # Run
-        transformer = PontuacaoTransform(round_number)
+        transformer = PontuacoesTransform(round_number)
         result_difference = transformer.calculate_scouts_difference(
             current_data, accumulated_scouts
         )
@@ -164,7 +164,7 @@ class TestPontuacaoTransform(unittest.TestCase):
         # Check
         self.assertTrue(expected_difference.equals(result_difference))
 
-    @patch("cartola_etl.etl.transform.pontuacao.PontuacaoDataUtils")
+    @patch("cartola_etl.etl.transform.pontuacoes.PontuacaoDataUtils")
     def test_create_null_rows_for_missing_members(self, mock_data_utils):
         # Config
         round_number = 1
@@ -200,7 +200,7 @@ class TestPontuacaoTransform(unittest.TestCase):
         }
 
         # Run
-        transformer = PontuacaoTransform(round_number)
+        transformer = PontuacoesTransform(round_number)
         result_null_rows = transformer.create_null_rows_for_missing_members(
                 current_data, accumulated_scouts
         )
@@ -208,13 +208,13 @@ class TestPontuacaoTransform(unittest.TestCase):
         # Check
         self.assertTrue(expected_null_rows.equals(result_null_rows))
 
-    @patch("cartola_etl.etl.transform.pontuacao.get_staging_area_path")
+    @patch("cartola_etl.etl.transform.pontuacoes.get_staging_area_path")
     def test_initial_round_transform_data(self, mock_staging_area_path):
         # Config
         round_number = 1
         round_number_str = str(round_number).zfill(2)
 
-        data_builder = PontuacaoDataBuilder()
+        data_builder = PontuacoesDataBuilder()
         rodada_data = (
             data_builder
             .add_atleta(1, 10, "name1", 1, {"DS": 0, "FC": 0}, 15.2, 0, 0)
@@ -236,20 +236,20 @@ class TestPontuacaoTransform(unittest.TestCase):
         mock_staging_area_path.return_value = test_staging_area_path
 
         # Run
-        transformer = PontuacaoTransform(round_number)
+        transformer = PontuacoesTransform(round_number)
         result_data = transformer.transform_data()
 
         # Check
         self.assertEqual(expected_data, result_data)
 
-    @patch("cartola_etl.etl.transform.pontuacao.ScoutsDatabaseExtractor")
-    @patch("cartola_etl.etl.transform.pontuacao.get_staging_area_path")
+    @patch("cartola_etl.etl.transform.pontuacoes.ScoutsDatabaseExtractor")
+    @patch("cartola_etl.etl.transform.pontuacoes.get_staging_area_path")
     def test_null_rows_transform_data(self, mock_staging_area_path, mock_scouts_database_extractor):
         # Config
         round_number = 2
         round_number_str = str(round_number).zfill(2)
 
-        data_builder = PontuacaoDataBuilder()
+        data_builder = PontuacoesDataBuilder()
         rodada_data = (
             data_builder
             .add_atleta(1, 10, "name1", 1, {"DS": 1, "FC": 0}, 16.2, 4.3, 4.3)
@@ -283,20 +283,20 @@ class TestPontuacaoTransform(unittest.TestCase):
         mock_db_extractor_instance.extract_data.return_value = extracted_data
 
         # Run
-        transformer = PontuacaoTransform(round_number)
+        transformer = PontuacoesTransform(round_number)
         result_data = transformer.transform_data()
 
         # Check
         self.assertTrue(set(result_data).issuperset(set(expected_data)))
 
-    @patch("cartola_etl.etl.transform.pontuacao.ScoutsDatabaseExtractor")
-    @patch("cartola_etl.etl.transform.pontuacao.get_staging_area_path")
+    @patch("cartola_etl.etl.transform.pontuacoes.ScoutsDatabaseExtractor")
+    @patch("cartola_etl.etl.transform.pontuacoes.get_staging_area_path")
     def test_next_round_transform_data(self, mock_staging_area_path, mock_scouts_database_extractor):
         # Config
         round_number = 3
         round_number_str = str(round_number).zfill(2)
 
-        data_builder = PontuacaoDataBuilder()
+        data_builder = PontuacoesDataBuilder()
         rodada_data = (
             data_builder
             .add_atleta(1, 10, "name1", 1, {"DS": 3, "FC": 5}, 17.2, 5.3, 6.3)
@@ -331,7 +331,7 @@ class TestPontuacaoTransform(unittest.TestCase):
         mock_db_extractor_instance.extract_data.return_value = extracted_data
 
         # Run
-        transformer = PontuacaoTransform(round_number)
+        transformer = PontuacoesTransform(round_number)
         result_data = transformer.transform_data()
 
         # Check

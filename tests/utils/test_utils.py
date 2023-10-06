@@ -58,7 +58,7 @@ class TestUtils(unittest.TestCase):
         # Config
         expected_data = 10
 
-        query = "SELECT MAX(rodada_id) FROM fact_pontuacao"
+        query = "SELECT MAX(rodada_id) FROM fact_pontuacoes"
 
         mock_connection = mock_connect.return_value.__enter__.return_value
         mock_cursor = mock_connection.cursor.return_value.__enter__.return_value

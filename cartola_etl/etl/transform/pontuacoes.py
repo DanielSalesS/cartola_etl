@@ -29,7 +29,7 @@ class PontuacaoDataUtils:
         )
 
 
-class PontuacaoTransform:
+class PontuacoesTransform:
     def __init__(self, round_number):
         self.round_number = round_number
         self.data_utils = PontuacaoDataUtils()

@@ -5,11 +5,11 @@ from cartola_etl.etl.extract.api import DynamicApiDataExtractor, FixedApiDataExt
 from cartola_etl.etl.load.clubes import ClubesLoad
 from cartola_etl.etl.load.rodada import RodadaLoad
 from cartola_etl.etl.load.membros_equipes import MembrosEquipesLoad
-from cartola_etl.etl.load.pontuacao import PontuacaoLoad
+from cartola_etl.etl.load.pontuacoes import PontuacoesLoad
 from cartola_etl.etl.transform.clubes import ClubesTransform
 from cartola_etl.etl.transform.rodada import RodadaTransform
 from cartola_etl.etl.transform.membros_equipes import MembrosEquipesTransform
-from cartola_etl.etl.transform.pontuacao import PontuacaoTransform
+from cartola_etl.etl.transform.pontuacoes import PontuacoesTransform
 
 
 def extract_fixed_api_data():
@@ -45,9 +45,9 @@ def round_transform_load_pipeline(round_number):
     transformed_data = transform.transform_data()
     MembrosEquipesLoad().load_data(transformed_data)
 
-    transform = PontuacaoTransform(round_number)
+    transform = PontuacoesTransform(round_number)
     transformed_data = transform.transform_data()
-    PontuacaoLoad().load_data(transformed_data)
+    PontuacoesLoad().load_data(transformed_data)
 
 
 def find_rounds_stored_in_staging_area():

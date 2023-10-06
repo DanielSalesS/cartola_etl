@@ -1,5 +1,5 @@
 CREATE TABLE
-    IF NOT EXISTS dim_rodadas (
+    IF NOT EXISTS dim_rodada (
         rodada_id INT NOT NULL,
         inicio DATETIME NULL,
         fim DATETIME NULL,
@@ -10,7 +10,7 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    IF NOT EXISTS dim_membros_equipes (
+    IF NOT EXISTS dim_membro_equipe (
         membro_equipe_id INT NOT NULL,
         nome_membro VARCHAR(45) NULL,
         posicao VARCHAR(45) NULL,
@@ -18,7 +18,7 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    IF NOT EXISTS dim_clubes (
+    IF NOT EXISTS dim_clube (
         clube_id INT NOT NULL,
         nome_clube VARCHAR(45) NULL,
         abreviacao VARCHAR(3) NULL,
@@ -26,7 +26,7 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    IF NOT EXISTS fact_pontuacao (
+    IF NOT EXISTS fact_pontuacoes (
         rodada_id INT NOT NULL,
         clube_id INT NOT NULL,
         membro_equipe_id INT NOT NULL,
@@ -53,7 +53,7 @@ CREATE TABLE
         preco FLOAT NULL,
         media FLOAT NULL,
         pontuacao_rodada FLOAT NULL,
-        FOREIGN KEY (rodada_id) REFERENCES dim_rodadas(rodada_id),
-        FOREIGN KEY (clube_id) REFERENCES dim_clubes(clube_id),
-        FOREIGN KEY (membro_equipe_id) REFERENCES dim_membros_equipes(membro_equipe_id)
+        FOREIGN KEY (rodada_id) REFERENCES dim_rodada(rodada_id),
+        FOREIGN KEY (clube_id) REFERENCES dim_clube(clube_id),
+        FOREIGN KEY (membro_equipe_id) REFERENCES dim_membro_equipe(membro_equipe_id)
     );

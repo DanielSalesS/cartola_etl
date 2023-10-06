@@ -1,10 +1,10 @@
 import unittest
 from unittest.mock import patch
 from cartola_etl.etl.load.base_load import BaseLoad
-from cartola_etl.etl.load.pontuacao import PontuacaoLoad
+from cartola_etl.etl.load.pontuacoes import PontuacoesLoad
 
 
-class TestPontuacaoLoad(unittest.TestCase):
+class TestPontuacoesLoad(unittest.TestCase):
     @patch.object(BaseLoad, "load_multiple_data")
     def test_load_data(self, mock_load_multiple_data):
         # Config
@@ -21,7 +21,7 @@ class TestPontuacaoLoad(unittest.TestCase):
         ]
 
         expected_query = """
-            INSERT INTO fact_pontuacao (
+            INSERT INTO fact_pontuacoes (
                 rodada_id, clube_id, membro_equipe_id, desarmes, falta_cometida, gol_contra,
                 cartao_amarelo, cartao_vermelho, jogo_sem_sofrer_gol, defesa_dificil, defesa_penalti,
                 gol_sofrido, penalti_cometido, falta_sofrida, assistencia,finalizacao_trave,
@@ -34,7 +34,7 @@ class TestPontuacaoLoad(unittest.TestCase):
         """
 
         # Run
-        loader = PontuacaoLoad()
+        loader = PontuacoesLoad()
         loader.load_data(data)
 
         # Check

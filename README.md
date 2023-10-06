@@ -41,7 +41,7 @@ A extração de dados é realizada a partir das seguintes APIs e do Data Warehou
         * `https://api.cartolafc.globo.com/rodadas`
 * **Data Warehouse:**
     * Tabela
-      * `fact_pontuacao`
+      * `fact_pontuacoes`
 
 ### ETL
 
@@ -59,19 +59,19 @@ O processo ETL é dividido em quatro etapas:
 
 **Tabela fato:**
 
-* **fact_pontuacao:** Armazena os dados de pontuação dos atletas, que são os dados de interesse do projeto.
+* **fact_pontuacoes:** Armazena os dados de pontuação dos atletas, que são os dados de interesse do projeto.
 
 **Tabelas dimensão:**
 
-* **dim_rodadas:** Armazena informações contextuais sobre as rodadas, como data e número de times escalados.
-* **dim_membros_equipes:** Armazena informações contextuais sobre os atletas, como nome e posição.
-* **dim_clubes:** Armazena informações contextuais sobre os clubes, como nome e abreviação.
+* **dim_rodada:** Armazena informações contextuais sobre as rodadas, como data e número de times escalados.
+* **dim_membro_equipe:** Armazena informações contextuais sobre os atletas, como nome e posição.
+* **dim_clube:** Armazena informações contextuais sobre os clubes, como nome e abreviação.
 
 **Relações entre as tabelas:**
 
-* **fact_pontuacao:** Relaciona-se com **dim_rodadas** por meio da coluna **rodada_id**.
-* **fact_pontuacao:** Relaciona-se com **dim_clubes** por meio da coluna **clube_id**.
-* **fact_pontuacao:** Relaciona-se com **dim_membros_equipes** por meio da coluna **membro_equipe_id**.
+* **fact_pontuacoes:** Relaciona-se com **dim_rodada** por meio da coluna **rodada_id**.
+* **fact_pontuacoes:** Relaciona-se com **dim_clube** por meio da coluna **clube_id**.
+* **fact_pontuacoes:** Relaciona-se com **dim_membro_equipe** por meio da coluna **membro_equipe_id**.
 
 
 

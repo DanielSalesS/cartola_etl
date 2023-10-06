@@ -15,7 +15,7 @@ class TestClubesLoad(unittest.TestCase):
         ]
 
         expected_query = """
-            INSERT IGNORE INTO dim_clubes (clube_id, nome_clube, abreviacao)
+            INSERT IGNORE INTO dim_clube (clube_id, nome_clube, abreviacao)
             VALUES (%s, %s, %s)
         """
         

@@ -34,7 +34,7 @@ def get_current_round():
 def get_last_round_in_database():
     with ConnectionManager(**datawarehouse_db_config).connect() as connection:
         with connection.cursor() as cursor:
-            cursor.execute("SELECT MAX(rodada_id) FROM fact_pontuacao")
+            cursor.execute("SELECT MAX(rodada_id) FROM fact_pontuacoes")
             last_round = cursor.fetchone()[0]
 
     return last_round if last_round is not None else 0
