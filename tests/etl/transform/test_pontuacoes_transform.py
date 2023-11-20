@@ -142,6 +142,76 @@ class TestPontuacoesTransform(unittest.TestCase):
         # Check
         self.assertTrue(result_data.equals(expected_data))
 
+    def test_get_invalid_scouts_indices(self):
+        # Config
+        round_number = 1
+        current_data = pd.DataFrame({"id": [1, 3, 4], "A": [-1, 0, 4], "B": [7, 0, 2]})
+
+        accumulated_scouts = pd.DataFrame(
+            {"id": [1, 2, 3], "A": [3, 4, -4], "B": [5, 6, 6]}
+        )
+
+        current_data.set_index("id", inplace=True)
+        accumulated_scouts.set_index("id", inplace=True)
+
+        expected_difference = pd.Index([1,3], name="id")
+
+        # Run
+        transformer = PontuacoesTransform(round_number)
+        result_difference = transformer.get_invalid_scouts_indices(
+            current_data, accumulated_scouts
+        )
+       
+        # Check
+        pd.testing.assert_index_equal(result_difference, expected_difference)
+    
+    def test_get_scouts_subtraction_invalid_indices(self):
+        # Config
+        round_number = 1
+        current_data = pd.DataFrame({"id": [1, 3, 4], "A": [-1, 5, 6], "B": [7, 8, 9]})
+
+        accumulated_scouts = pd.DataFrame(
+            {"id": [1, 2, 3], "A": [3, 4, -4], "B": [5, 6, 6]}
+        )
+
+        current_data.set_index("id", inplace=True)
+        accumulated_scouts.set_index("id", inplace=True)
+
+        expected_indices= pd.Index([1,4], name="id")
+
+        # Run
+        transformer = PontuacoesTransform(round_number)
+        result_indices = transformer.get_scouts_subtraction_invalid_indices(
+            current_data, accumulated_scouts
+        )
+        print("result_indices", result_indices)
+        print("expected_indices", expected_indices)
+        # Check
+        pd.testing.assert_index_equal(result_indices, expected_indices)
+    
+    def test_get_null_data_indices(self):
+        # Config
+        round_number = 1
+        current_data = pd.DataFrame({"id": [1, 2, 3], "A": [1, 0, -6], "B": [7, 7, 9]})
+
+        accumulated_scouts = pd.DataFrame(
+            {"id": [1, 2, 3], "A": [3, 4, 4], "B": [5, 6, 6]}
+        )
+
+        current_data.set_index("id", inplace=True)
+        accumulated_scouts.set_index("id", inplace=True)
+
+        expected_indices= pd.Index([1,2,3], name="id")
+
+        # Run
+        transformer = PontuacoesTransform(round_number)
+        result_indices = transformer.get_null_data_indices(
+            current_data, accumulated_scouts
+        )
+       
+        # Check
+        pd.testing.assert_index_equal(result_indices, expected_indices)
+
     def test_calculate_scouts_difference(self):
         # Config
         round_number = 1

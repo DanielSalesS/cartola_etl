@@ -74,20 +74,67 @@ class PontuacoesTransform:
 
         return pd.DataFrame(data, columns=self.sorted_columns)
 
+    def get_invalid_scouts_indices(self, current_scouts, accumulated_scouts):
+        common_indices = current_scouts.index.intersection(accumulated_scouts.index)
+
+        current_scouts_filtered = current_scouts.loc[common_indices]
+        accumulated_scouts_filtered = accumulated_scouts.loc[common_indices]
+
+        scouts_difference = current_scouts_filtered.sub(accumulated_scouts_filtered)
+
+        negative_difference_indices = scouts_difference.loc[
+            (scouts_difference < 0).any(axis=1)
+        ].index
+
+        negative_current_scouts_indices = current_scouts.loc[
+            (current_scouts < 0).any(axis=1)
+        ].index
+
+        return negative_difference_indices.union(negative_current_scouts_indices)
+
+    def get_scouts_subtraction_invalid_indices(
+        self, current_scouts, accumulated_scouts
+    ):
+        new_indices = current_scouts.index.difference(accumulated_scouts.index)
+        invalid_indices = self.get_invalid_scouts_indices(
+            current_scouts, accumulated_scouts
+        )
+
+        return new_indices.union(invalid_indices)
+
+    def get_null_data_indices(self, current_scouts, accumulated_scouts):
+        missing_indices = accumulated_scouts.index.difference(current_scouts.index)
+        invalid_indices = self.get_invalid_scouts_indices(
+            current_scouts, accumulated_scouts
+        )
+
+        return missing_indices.union(invalid_indices)
+
     def calculate_scouts_difference(self, current_data, accumulated_scouts):
-        selected_scouts = current_data[accumulated_scouts.columns]
+        current_scouts = current_data[accumulated_scouts.columns]
 
-        common_index = selected_scouts.index.intersection(accumulated_scouts.index)
-        selected_scouts_common = selected_scouts.loc[common_index]
-        sum_scouts_common = accumulated_scouts.loc[common_index]
+        invalid_indices = self.get_scouts_subtraction_invalid_indices(
+            current_scouts, accumulated_scouts
+        )
+        filtered_indices = current_scouts.index.difference(invalid_indices)
 
-        difference = selected_scouts_common.sub(sum_scouts_common, fill_value=0)
+        current_scouts_filtered = current_scouts.loc[filtered_indices]
+        accumulated_scouts_filtered = accumulated_scouts.loc[filtered_indices]
 
-        return difference
+        scouts_difference = current_scouts_filtered.sub(
+            accumulated_scouts_filtered, fill_value=0
+        )
+
+        return scouts_difference
 
     def create_null_rows_for_missing_members(self, current_data, accumulated_scouts):
-        missing_indices = accumulated_scouts.index.difference(current_data.index)
-        null_rows = pd.DataFrame(index=missing_indices, columns=self.sorted_columns)
+        current_scouts = current_data[accumulated_scouts.columns]
+
+        null_data_indices = self.get_null_data_indices(
+            current_scouts, accumulated_scouts
+        )
+
+        null_rows = pd.DataFrame(index=null_data_indices, columns=self.sorted_columns)
         null_rows["rodada_id"] = self.round_number
         null_rows["clube_id"] = NO_CLUBE_ID
         null_rows.drop("membro_equipe_id", axis=1, inplace=True)
@@ -118,7 +165,7 @@ class PontuacoesTransform:
                 current_data, accumulated_scouts
             )
 
-            current_data = pd.concat([current_data, null_rows])
+            current_data = current_data.combine_first(null_rows)
             current_data.reset_index(inplace=True)
             current_data = current_data[self.sorted_columns]
             current_data.replace(np.nan, None, inplace=True)
