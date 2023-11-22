@@ -5,6 +5,19 @@ from mysql.connector import Error
 
 
 def main():
+    """Executes SQL commands to create tables in the data warehouse.
+
+    Attempts to establish a connection to the data warehouse database using the provided 
+    configuration. Reads the SQL script from the 'create_tables.sql' file and executes 
+    each command found in the script sequentially.
+
+    Returns:
+        None
+        
+    Raises:
+        Error: If there is an error during the execution of SQL commands.
+        Exception: If any other exception occurs.
+    """
     try:
         conn_manager = ConnectionManager(**datawarehouse_db_config)
 

@@ -3,10 +3,34 @@ from cartola_etl.config.database_config import datawarehouse_db_config
 
 
 class ScoutsDatabaseExtractor:
+    """
+    Extracts data from the data warehouse database.
+
+    The class provides methods to extract data from the 'fact_pontuacoes' table within
+    the data warehouse database.
+
+    Attributes:
+        conn_manager (ConnectionManager): The connection manager object.
+    """
     def __init__(self):
+        """
+        Initializes a new instance of the class.
+
+        Returns:
+            None
+        """
         self.conn_manager = ConnectionManager(**datawarehouse_db_config)
 
     def extract_data(self):
+        """
+        Extracts data from the data warehouse database.
+
+        Executes a SQL query to extract data from the 'fact_pontuacoes' table 
+        within the data warehouse database.
+        
+        Returns:
+            list: A list of tuples containing the extracted data from the database.
+        """
         query = """
             SELECT 
                 membro_equipe_id, 

@@ -8,6 +8,18 @@ from cartola_etl.utils.utils import get_last_round_in_database
 
 
 def main():
+    """
+    Processes unprocessed rounds from Cartola FC APIs, ensuring data consistency in 
+    the database.
+
+    The pipeline handles initial data setup by loading "Clubes" data for the initial 
+    round. Subsequently, it identifies rounds with data stored in the staging area and 
+    validates their consistency. It then processes the missing rounds in sequence, 
+    transforming and loading data for each round using dedicated functions.
+
+    Returns:
+        None
+    """
     clubes_transform_load(round_number=INITIAL_ROUND)
 
     stored_rounds_in_staging_area = find_rounds_stored_in_staging_area()

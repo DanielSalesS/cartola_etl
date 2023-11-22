@@ -10,6 +10,18 @@ from cartola_etl.utils.utils import get_current_round, get_last_round_in_databas
 
 
 def main():
+    """
+    Extracts, transforms, and loads data from Cartola FC APIs to the database.
+
+    The pipeline fetches the latest dynamic data from the API, identifies data stored 
+    in the staging area, and validates its consistency. For the initial data setup 
+    (round 1), it retrieves fixed data and loads "Clubes" table data. Subsequently, it 
+    processes the current round by transforming and loading data for the respective 
+    dimensions and fact table.
+
+    Returns:
+        None
+    """
     current_round = get_current_round()
     last_round_in_database = get_last_round_in_database()
 

@@ -5,6 +5,20 @@ from mysql.connector import Error
 
 
 def main():
+    """
+    Creates a database if it does not already exist.
+
+    Tries to establish a connection to the database server using the provided 
+    data warehouse configuration. If successful, attempts to create a new database 
+    named 'NAME_DATAWAREHOUSE' if it does not already exist.
+
+    Returns:
+        None
+
+    Raises:
+        Error: If there is an error during the database operations.
+        Exception: If any other exception occurs.
+    """
     try:
         temp_db_config = datawarehouse_db_config.copy()
         temp_db_config["database"] = None
